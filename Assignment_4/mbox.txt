@@ -1,0 +1,6 @@
+From office@ch.iitr.ac.in Sat Jan 5 09:14:16 2008
+From someone@example.com Fri Jan 4 18:30:00 2008
+From admin@test.org Mon Feb 2 08:45:22 2009
+From: header@example.com
+Random text here
+From support@python.org Wed Mar 3 12:00:00 2010
