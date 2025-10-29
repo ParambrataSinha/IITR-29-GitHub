@@ -24,14 +24,18 @@ for degree, color in zip([1, 2, 3], ['red', 'green', 'blue']):
     poly_eq = np.poly1d(coeffs)
     
     # Predict values
-    y_pred = poly_eq(x_line)
+    y_pred = poly_eq(T)  # prediction on actual points
+    y_line = poly_eq(x_line)
+    
+    # Compute Mean Absolute Percentage Error (MAPE)
+    mape = np.mean(np.abs((conversion - y_pred) / conversion)) * 100
     
     # Plot regression line
-    plt.plot(x_line, y_pred, color=color, label=f'Degree {degree}: {poly_eq}')
-    
-plt.title("Polynomial Regression (without sklearn)")
+    plt.plot(x_line, y_line, color=color, label=f'Degree {degree} (MAPE={mape:.2f}%)')
+
+plt.title("Polynomial Regression with Percentage Error")
 plt.xlabel("Temperature (°C)")
 plt.ylabel("Conversion (%)")
-plt.legend(fontsize=8)
+plt.legend(fontsize=9)
 plt.grid(True, linestyle='--', alpha=0.5)
 plt.show()
