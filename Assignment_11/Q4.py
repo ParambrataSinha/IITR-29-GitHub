@@ -1,11 +1,23 @@
 import numpy as np
-import matplotlib.pyplot as plt
 
 def polyfit_matrix(x, y, m):
+    """
+    Polynomial least squares fitting using normal equations.
+    
+    Parameters:
+        x : array-like, input x data
+        y : array-like, input y data
+        m : int, degree of polynomial
+        
+    Returns:
+        coeffs : numpy array of coefficients [a0, a1, ..., am]
+        std_dev : standard deviation of residuals
+    """
     x = np.array(x, dtype=float)
     y = np.array(y, dtype=float)
     n = len(x)
 
+    # Construct A and b as per given formulas
     A = np.zeros((m+1, m+1))
     b = np.zeros(m+1)
 
@@ -14,33 +26,21 @@ def polyfit_matrix(x, y, m):
             A[k, j] = np.sum(x**(k+j))
         b[k] = np.sum(y * x**k)
 
+    # Solve for coefficients
     coeffs = np.linalg.solve(A, b)
 
+    # Compute fitted values and residuals
     y_fit = sum(coeffs[j] * x**j for j in range(m+1))
     residuals = y - y_fit
 
+    # Sum of squares and standard deviation
     SSR = np.sum(residuals**2)
     std_dev = np.sqrt(SSR / (n - (m + 1)))
 
     return coeffs, std_dev
 
 
-x = np.array([0, 1, 2, 3, 4, 5])
-y = np.array([2.9, 3.7, 4.1, 4.9, 5.3, 6.1])
-
-coeffs, std = polyfit_matrix(x, y, m=2)
-
-print("Polynomial coefficients (a0, a1, a2):", coeffs)
-print("Standard deviation:", round(std, 4))
-
-xfit = np.linspace(min(x), max(x), 100)
-yfit = sum(coeffs[j] * xfit**j for j in range(len(coeffs)))
-
-plt.scatter(x, y, color='blue', label='Data')
-plt.plot(xfit, yfit, color='red', label=f'Polynomial Fit (deg={len(coeffs)-1})')
-plt.xlabel('x')
-plt.ylabel('y')
-plt.title('Polynomial Fit using Matrix Method')
-plt.legend()
-plt.grid(True)
-plt.show()
+# Example usage (test)
+if __name__ == "__main__":
+    # demo/test section
+    print("Testing polynomial fitting...")
